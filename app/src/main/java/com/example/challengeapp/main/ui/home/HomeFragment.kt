@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.challengeapp.databinding.FragmentHomeBinding
 import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.ui.main.MainViewModel
+import com.example.challengeapp.main.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,7 +45,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setObservers(){
-        mainViewModel.fetchMostPopular().observe(viewLifecycleOwner) { result ->
+        mainViewModel.fetchMostPopular(Constants.VIEWED).observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
                     // Show loading

@@ -4,5 +4,5 @@ import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
 
 interface Repo {
-    suspend fun getMostPopular(): Resource<List<News>>
+    suspend fun getMostPopular(searchBy: String): Resource<List<News>>
 }

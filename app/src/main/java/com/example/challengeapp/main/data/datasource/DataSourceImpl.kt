@@ -8,7 +8,7 @@ import javax.inject.Inject
 class DataSourceImpl @Inject constructor(
     private val webService: WebService,
 ): DataSource {
-    override suspend fun getMostPopular(): Resource<List<News>> {
-        return Resource.Success(webService.mostPopular().results)
+    override suspend fun getMostPopular(searchBy: String): Resource<List<News>> {
+        return Resource.Success(webService.mostPopular(searchBy).results)
     }
 }

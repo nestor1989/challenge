@@ -16,10 +16,10 @@ class MainViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 ): ViewModel() {
 
-    fun fetchMostPopular() = liveData(Dispatchers.IO) {
+    fun fetchMostPopular(searchBy: String) = liveData(Dispatchers.IO) {
         emit(Resource.Loading())
         try {
-            emit(repo.getMostPopular())
+            emit(repo.getMostPopular(searchBy))
         }catch (e:Exception){
             emit(Resource.Failure(e))
         }
