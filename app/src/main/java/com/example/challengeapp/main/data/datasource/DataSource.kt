@@ -1,3 +1,8 @@
 package com.example.challengeapp.main.data.datasource
 
-interface DataSource {}
+import com.example.challengeapp.main.core.Resource
+import com.example.challengeapp.main.data.model.News
+
+interface DataSource {
+    suspend fun getMostPopular(): Resource<List<News>>
+}

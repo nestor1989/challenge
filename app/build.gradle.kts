@@ -38,6 +38,10 @@ android {
     buildFeatures{
         viewBinding = true
     }
+
+    kotlin {
+        version = "1.8.0"
+    }
 }
 
 kapt {

@@ -8,6 +8,7 @@ import com.example.challengeapp.main.data.datasource.DataSourceImpl
 import com.example.challengeapp.main.data.network.WebService
 import com.example.challengeapp.main.data.repo.Repo
 import com.example.challengeapp.main.data.repo.RepoImpl
+import com.example.challengeapp.main.utils.Constants
 import com.google.gson.GsonBuilder
 import dagger.Binds
 import dagger.Module
@@ -30,7 +31,7 @@ object AppModule {
     fun provideWebService(): WebService {
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.thingiverse.com/")
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
 

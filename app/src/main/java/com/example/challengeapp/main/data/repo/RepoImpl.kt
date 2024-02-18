@@ -1,9 +1,14 @@
 package com.example.challengeapp.main.data.repo
 
+import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.datasource.DataSource
+import com.example.challengeapp.main.data.model.News
 import javax.inject.Inject
 
 class RepoImpl
 @Inject constructor(private val dataSource: DataSource)
 :Repo {
+    override suspend fun getMostPopular(): Resource<List<News>> {
+        return dataSource.getMostPopular()
+    }
 }
