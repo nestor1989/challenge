@@ -51,7 +51,7 @@ class NewsAdapter(private val context: Context, private val newsList:List<News>,
             }
 
             itemBinding.tvTitle.setText(item.title)
-            itemBinding.tvDesc.setText(item.abstract)
+            itemBinding.tvDesc.setText(item.abstractField)
 
             itemView.setOnClickListener {itemClickListener.onNewsClick(item)}
         }

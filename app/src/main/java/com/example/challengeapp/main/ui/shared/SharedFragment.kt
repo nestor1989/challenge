@@ -14,6 +14,7 @@ import com.example.challengeapp.databinding.FragmentSharedBinding
 import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
 import com.example.challengeapp.main.ui.adapter.NewsAdapter
+import com.example.challengeapp.main.ui.main.MainActivity
 import com.example.challengeapp.main.ui.main.MainViewModel
 import com.example.challengeapp.main.ui.modal.NewsModalFragment
 import com.example.challengeapp.main.ui.modal.ProgressDialogFragment
@@ -96,18 +97,38 @@ class SharedFragment : Fragment(),
         }
 
         private fun modalInst(news: News){
-            //val favorite = validateFav(news)
-            news.favorite = false
+            val favorite = validateFav(news)
+            news.favorite = favorite
             newsModalFragment = NewsModalFragment(news, this)
             val newInst = newsModalFragment.newInstance(news)
             newInst.show(activity?.supportFragmentManager!!, "newsmodal")
         }
 
+        private fun validateFav(news : News): Boolean{
+            try {
+                mainViewModel.favList.value?.let {
+                    for(i in 0 until mainViewModel.favList.value!!.size){
+                        if (mainViewModel.favList.value!![i].id == news.id){
+                            news.favorite = true
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d("SharedFragment", "Error: ${e.message}")
+            }
+            return news.favorite
+        }
+
         override fun onLikeClick(news: News) {
-            TODO("Not yet implemented")
+            if (!news.favorite){
+                mainViewModel.addedToFavorite(news)
+            }
+            else {
+                mainViewModel.deleteFavorite(news)
+            }
         }
 
         override fun onDismiss() {
-
+            (activity as MainActivity).setUpFav()
         }
     }

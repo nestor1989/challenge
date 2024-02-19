@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 is Resource.Loading->{
                 }
                 is Resource.Success->{
-                    mainViewModel.favList = result.data
+                    mainViewModel.favList.postValue(result.data)
                 }
                 is Resource.Failure->{
                     Toast.makeText(applicationContext, result.exception.toString(), Toast.LENGTH_LONG).show()

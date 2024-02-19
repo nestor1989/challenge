@@ -22,7 +22,7 @@ class MainViewModel @Inject constructor(
 
     var subtitle: MutableLiveData<String> = MutableLiveData()
 
-    var favList: List<News>?=null
+    var favList: MutableLiveData<List<News>> = MutableLiveData()
 
     fun fetchMostPopular(searchBy: String) = liveData(Dispatchers.IO) {
         emit(Resource.Loading())

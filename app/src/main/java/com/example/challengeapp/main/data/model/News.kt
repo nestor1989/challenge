@@ -17,8 +17,9 @@ data class News(
     var entityKey: Long? = null,
     @ColumnInfo(name = "title")
     var title: String,
-    @ColumnInfo(name = "abstract")
-    var abstract: String,
+    @SerializedName("abstract")
+    @ColumnInfo(name = "abstractField")
+    var abstractField: String,
     @ColumnInfo(name = "media")
     var media: List<Media>,
     @ColumnInfo(name = "url")

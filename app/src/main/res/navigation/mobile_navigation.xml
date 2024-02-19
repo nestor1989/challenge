@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_favs"
-        android:name="com.example.challengeapp.main.ui.favs.NotificationsFragment"
+        android:name="com.example.challengeapp.main.ui.favs.FavsFragment"
         android:label="@string/favs"
         tools:layout="@layout/fragment_favs" />
 </navigation>
