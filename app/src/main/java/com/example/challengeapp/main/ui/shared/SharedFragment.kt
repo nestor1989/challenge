@@ -15,6 +15,7 @@ import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
 import com.example.challengeapp.main.ui.adapter.NewsAdapter
 import com.example.challengeapp.main.ui.main.MainViewModel
+import com.example.challengeapp.main.ui.modal.ProgressDialogFragment
 import com.example.challengeapp.main.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +28,7 @@ class SharedFragment : Fragment(),
     private val mainViewModel by activityViewModels<MainViewModel>()
 
     private val binding get() = _binding!!
+    private lateinit var progressDialogFragment: ProgressDialogFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,18 +53,23 @@ class SharedFragment : Fragment(),
     }
 
     private fun setObservers(){
+        progressDialogFragment = ProgressDialogFragment()
+        val newProgress = progressDialogFragment.newInstance()
+
         mainViewModel.fetchMostPopular(Constants.SHARED).observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
-                    // Show loading
+                    newProgress.show(activity?.supportFragmentManager!!, "progress dialog")
                 }
 
                 is Resource.Success -> {
+                    newProgress.dismiss()
                     Log.d("HomeFragment", "Most popular: ${result.data}")
                     initAdapter(result.data)
                 }
 
                 is Resource.Failure -> {
+                    newProgress.dismiss()
                     Log.d("HomeFragment", "Error: ${result.exception}")
                 }
             }

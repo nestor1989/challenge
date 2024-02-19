@@ -14,17 +14,21 @@ import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
 import com.example.challengeapp.main.ui.adapter.NewsAdapter
 import com.example.challengeapp.main.ui.main.MainViewModel
+import com.example.challengeapp.main.ui.modal.NewsModalFragment
+import com.example.challengeapp.main.ui.modal.ProgressDialogFragment
 import com.example.challengeapp.main.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(),
-                    NewsAdapter.OnNewsClickListener
-    {
+                    NewsAdapter.OnNewsClickListener,
+                    NewsModalFragment.OnArticleClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val mainViewModel by activityViewModels<MainViewModel>()
     private val binding get() = _binding!!
+    private lateinit var newsModalFragment: NewsModalFragment
+    private lateinit var progressDialogFragment: ProgressDialogFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,19 +52,24 @@ class HomeFragment : Fragment(),
     }
 
     private fun setObservers(){
+        progressDialogFragment = ProgressDialogFragment()
+        val newProgress = progressDialogFragment.newInstance()
+
         mainViewModel.fetchMostPopular(Constants.VIEWED).observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
-                    // Show loading
+                    newProgress.show(activity?.supportFragmentManager!!, "progress dialog")
                 }
 
                 is Resource.Success -> {
-                    Log.d("HomeFragment", "Most popular: ${result.data}")
                     initAdapter(result.data)
+                    newProgress.dismiss()
+
                 }
 
                 is Resource.Failure -> {
                     Log.d("HomeFragment", "Error: ${result.exception}")
+                    newProgress.dismiss()
                 }
             }
         }
@@ -72,7 +81,7 @@ class HomeFragment : Fragment(),
     }
 
     override fun onNewsClick(news: News) {
-        TODO("Not yet implemented")
+       modalInst(news)
     }
 
     private fun initAdapter(list : List<News>){
@@ -81,4 +90,33 @@ class HomeFragment : Fragment(),
         recyclerView.layoutManager= LinearLayoutManager(appContext)
         binding.recyclerView.adapter= NewsAdapter(requireContext(), list, this)
     }
+
+    private fun modalInst(news: News){
+        //val favorite = validateFav(news)
+        news.favorite = false
+        newsModalFragment = NewsModalFragment(news, this)
+        val newInst = newsModalFragment.newInstance(news)
+        newInst.show(activity?.supportFragmentManager!!, "newsmodal")
+    }
+
+    /*private fun validateFav(news : News): Boolean{
+        listFavs?.let {
+            for(i in 0 until listFavs!!.size){
+                if (listFavs!![i].id == thingEntity.id){
+                    thingEntity.favorite = true
+                }
+            }
+        }
+        return thingEntity.favorite
+    }*/
+
+    override fun onLikeClick(news: News) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onDismiss() {
+
+    }
+
+
 }

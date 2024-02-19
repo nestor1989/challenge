@@ -8,6 +8,7 @@ data class News(
     var abstract: String,
     var media: List<Media>,
     var url: String,
+    var favorite:Boolean = false
 )
 
 data class Media(
