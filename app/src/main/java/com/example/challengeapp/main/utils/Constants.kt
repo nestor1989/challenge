@@ -7,5 +7,6 @@ class Constants {
         const val EMAILED = "emailed/"
         const val VIEWED = "viewed/"
         const val PATH_JSON= "7.json?api-key="
+        const val SHARED = "shared/"
     }
 }

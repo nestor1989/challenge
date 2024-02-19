@@ -1,15 +1,16 @@
-package com.example.challengeapp.main.ui.home
+package com.example.challengeapp.main.ui.shared
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.challengeapp.R
-import com.example.challengeapp.databinding.FragmentHomeBinding
+import com.example.challengeapp.databinding.FragmentSharedBinding
 import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
 import com.example.challengeapp.main.ui.adapter.NewsAdapter
@@ -18,12 +19,13 @@ import com.example.challengeapp.main.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(),
-                    NewsAdapter.OnNewsClickListener
+class SharedFragment : Fragment(),
+    NewsAdapter.OnNewsClickListener
     {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentSharedBinding? = null
     private val mainViewModel by activityViewModels<MainViewModel>()
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -31,11 +33,12 @@ class HomeFragment : Fragment(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        return binding.root
+        _binding = FragmentSharedBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        return root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,11 +47,11 @@ class HomeFragment : Fragment(),
     }
 
     private fun setUp(){
-        mainViewModel.subtitle.postValue(getString(R.string.most_viewed))
+        mainViewModel.subtitle.postValue(getString(R.string.most_shared))
     }
 
     private fun setObservers(){
-        mainViewModel.fetchMostPopular(Constants.VIEWED).observe(viewLifecycleOwner) { result ->
+        mainViewModel.fetchMostPopular(Constants.SHARED).observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
                     // Show loading

@@ -1,6 +1,7 @@
 package com.example.challengeapp.main.ui.main
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.challengeapp.main.core.Resource
@@ -15,6 +16,8 @@ class MainViewModel @Inject constructor(
     private val repo: Repo,
     @ApplicationContext private val context: Context
 ): ViewModel() {
+
+    var subtitle: MutableLiveData<String> = MutableLiveData()
 
     fun fetchMostPopular(searchBy: String) = liveData(Dispatchers.IO) {
         emit(Resource.Loading())

@@ -4,4 +4,15 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="viewed">Viewed</string>
+    <string name="shared">Shared</string>
+    <string name="emailed">Emailed</string>
+    <string name="most_popular">Most Popular</string>
+    <string name="favs">Favs</string>
+
+    <string name="most_shared">Most Shared</string>
+    <string name="most_viewed">Most Viewed</string>
+
+
 </resources>

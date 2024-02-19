@@ -1,4 +1,4 @@
-package com.example.challengeapp.main.ui.notifications
+package com.example.challengeapp.main.ui.favs
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

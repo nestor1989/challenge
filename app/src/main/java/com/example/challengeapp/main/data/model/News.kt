@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class News(
     var id: Long,
     var title: String,
+    var abstract: String,
     var media: List<Media>,
     var url: String,
 )
