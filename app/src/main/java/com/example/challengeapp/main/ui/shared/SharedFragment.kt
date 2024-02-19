@@ -15,80 +15,99 @@ import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
 import com.example.challengeapp.main.ui.adapter.NewsAdapter
 import com.example.challengeapp.main.ui.main.MainViewModel
+import com.example.challengeapp.main.ui.modal.NewsModalFragment
 import com.example.challengeapp.main.ui.modal.ProgressDialogFragment
 import com.example.challengeapp.main.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SharedFragment : Fragment(),
-    NewsAdapter.OnNewsClickListener
+    NewsAdapter.OnNewsClickListener,
+    NewsModalFragment.OnArticleClickListener
     {
 
-    private var _binding: FragmentSharedBinding? = null
-    private val mainViewModel by activityViewModels<MainViewModel>()
+        private var _binding: FragmentSharedBinding? = null
+        private val mainViewModel by activityViewModels<MainViewModel>()
 
-    private val binding get() = _binding!!
-    private lateinit var progressDialogFragment: ProgressDialogFragment
+        private val binding get() = _binding!!
+        private lateinit var newsModalFragment: NewsModalFragment
+        private lateinit var progressDialogFragment: ProgressDialogFragment
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View {
 
-        _binding = FragmentSharedBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+            _binding = FragmentSharedBinding.inflate(inflater, container, false)
+            val root: View = binding.root
 
-        return root
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+            return root
+        }
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
 
-        setUp()
-        setObservers()
-    }
+            setUp()
+            setObservers()
+        }
 
-    private fun setUp(){
-        mainViewModel.subtitle.postValue(getString(R.string.most_shared))
-    }
+        private fun setUp(){
+            mainViewModel.subtitle.postValue(getString(R.string.most_shared))
+        }
 
-    private fun setObservers(){
-        progressDialogFragment = ProgressDialogFragment()
-        val newProgress = progressDialogFragment.newInstance()
+        private fun setObservers(){
+            progressDialogFragment = ProgressDialogFragment()
+            val newProgress = progressDialogFragment.newInstance()
 
-        mainViewModel.fetchMostPopular(Constants.SHARED).observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Resource.Loading -> {
-                    newProgress.show(activity?.supportFragmentManager!!, "progress dialog")
-                }
+            mainViewModel.fetchMostPopular(Constants.SHARED).observe(viewLifecycleOwner) { result ->
+                when (result) {
+                    is Resource.Loading -> {
+                        newProgress.show(activity?.supportFragmentManager!!, "progress dialog")
+                    }
 
-                is Resource.Success -> {
-                    newProgress.dismiss()
-                    Log.d("HomeFragment", "Most popular: ${result.data}")
-                    initAdapter(result.data)
-                }
+                    is Resource.Success -> {
+                        initAdapter(result.data)
+                        newProgress.dismiss()
 
-                is Resource.Failure -> {
-                    newProgress.dismiss()
-                    Log.d("HomeFragment", "Error: ${result.exception}")
+                    }
+
+                    is Resource.Failure -> {
+                        Log.d("SharedFragment", "Error: ${result.exception}")
+                        newProgress.dismiss()
+                    }
                 }
             }
         }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+        override fun onDestroyView() {
+            super.onDestroyView()
+            _binding = null
+        }
 
-    override fun onNewsClick(news: News) {
-        TODO("Not yet implemented")
-    }
+        override fun onNewsClick(news: News) {
+            modalInst(news)
+        }
 
-    private fun initAdapter(list : List<News>){
-        val appContext = requireContext()
-        val recyclerView = binding.recyclerView
-        recyclerView.layoutManager= LinearLayoutManager(appContext)
-        binding.recyclerView.adapter= NewsAdapter(requireContext(), list, this)
+        private fun initAdapter(list : List<News>){
+            val appContext = requireContext()
+            val recyclerView = binding.recyclerView
+            recyclerView.layoutManager= LinearLayoutManager(appContext)
+            binding.recyclerView.adapter= NewsAdapter(requireContext(), list, this)
+        }
+
+        private fun modalInst(news: News){
+            //val favorite = validateFav(news)
+            news.favorite = false
+            newsModalFragment = NewsModalFragment(news, this)
+            val newInst = newsModalFragment.newInstance(news)
+            newInst.show(activity?.supportFragmentManager!!, "newsmodal")
+        }
+
+        override fun onLikeClick(news: News) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onDismiss() {
+
+        }
     }
-}
