@@ -17,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repo: Repo,
-    @ApplicationContext private val context: Context
 ): ViewModel() {
 
     var subtitle: MutableLiveData<String> = MutableLiveData()
