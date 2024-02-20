@@ -39,7 +39,7 @@ class NewsAdapter(private val context: Context, private val newsList:List<News>,
         BaseViewHolder<News>(itemBinding.root) {
         override fun bind(item: News) {
             try {
-                val image = "${item.media[0].mediaMetadata[0].url}"
+                val image = item.media[0].mediaMetadata[0].url
                 Glide.with(context)
                     .load(image)
                     .centerCrop()
