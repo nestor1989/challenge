@@ -1,5 +1,5 @@
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:drawable="@drawable/nytimes_icon"
+    android:drawable="@drawable/nyt_white"
     android:insetLeft="72dp"
     android:insetRight="72dp"
     android:insetTop="72dp"
