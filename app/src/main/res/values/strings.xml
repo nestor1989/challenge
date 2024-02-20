@@ -14,5 +14,13 @@
     <string name="most_shared">Most Shared</string>
     <string name="most_viewed">Most Viewed</string>
 
+    <string name="last_week">Last week</string>
+
+    <string-array name="period">
+        <item>Today</item>
+        <item>Last week</item>
+        <item>Last Month</item>
+    </string-array>
+
 
 </resources>

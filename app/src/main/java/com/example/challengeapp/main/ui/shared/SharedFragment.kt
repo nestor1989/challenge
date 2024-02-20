@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -24,7 +26,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SharedFragment : Fragment(),
     NewsAdapter.OnNewsClickListener,
-    NewsModalFragment.OnArticleClickListener
+    NewsModalFragment.OnArticleClickListener,
+    AdapterView.OnItemClickListener
     {
 
         private var _binding: FragmentSharedBinding? = null
@@ -33,6 +36,7 @@ class SharedFragment : Fragment(),
         private val binding get() = _binding!!
         private lateinit var newsModalFragment: NewsModalFragment
         private lateinit var progressDialogFragment: ProgressDialogFragment
+        private var period = 7
 
         override fun onCreateView(
             inflater: LayoutInflater,
@@ -50,6 +54,7 @@ class SharedFragment : Fragment(),
 
             setUp()
             setObservers()
+            initArray()
         }
 
         private fun setUp(){
@@ -60,7 +65,7 @@ class SharedFragment : Fragment(),
             progressDialogFragment = ProgressDialogFragment()
             val newProgress = progressDialogFragment.newInstance()
 
-            mainViewModel.fetchMostPopular(Constants.SHARED).observe(viewLifecycleOwner) { result ->
+            mainViewModel.fetchMostPopular(Constants.SHARED, period.toString()).observe(viewLifecycleOwner) { result ->
                 when (result) {
                     is Resource.Loading -> {
                         newProgress.show(activity?.supportFragmentManager!!, "progress dialog")
@@ -131,4 +136,38 @@ class SharedFragment : Fragment(),
         override fun onDismiss() {
             (activity as MainActivity).setUpFav()
         }
+
+        private fun initArray(){
+
+            binding.listPeriod.setText(getString(R.string.last_week))
+
+            val period = resources.getStringArray(R.array.period)
+
+            val adapter = ArrayAdapter(
+                requireContext(),
+                R.layout.list_item,
+                period
+            )
+
+            with(binding.listPeriod) {
+                setAdapter(adapter)
+                onItemClickListener=this@SharedFragment
+            }
+        }
+
+        override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            period = when(position){
+                0 -> 1
+
+                1 -> 7
+
+                2 -> 30
+
+                else -> 7
+            }
+
+            setObservers()
+
+        }
+
     }

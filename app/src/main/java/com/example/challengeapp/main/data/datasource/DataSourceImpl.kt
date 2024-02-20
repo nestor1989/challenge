@@ -10,8 +10,8 @@ class DataSourceImpl @Inject constructor(
     private val webService: WebService,
     private val newsDao: NewsDao
 ): DataSource {
-    override suspend fun getMostPopular(searchBy: String): Resource<List<News>> {
-        return Resource.Success(webService.mostPopular(searchBy).results)
+    override suspend fun getMostPopular(searchBy: String, period: String): Resource<List<News>> {
+        return Resource.Success(webService.mostPopular(searchBy, period).results)
     }
 
     override suspend fun insertNews(news: News) {

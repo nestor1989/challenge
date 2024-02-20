@@ -3,8 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".main.ui.home.HomeFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lytPeriod"
+        style="@style/StyleDropDown"
+        app:boxStrokeWidth="0dp"
+        android:gravity="center"
+        app:endIconTint="@color/black"
+        android:padding="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <AutoCompleteTextView
+            android:id="@+id/listPeriod"
+            android:gravity="center"
+            android:text="@string/last_week"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="none" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

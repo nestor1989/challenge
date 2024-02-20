@@ -4,7 +4,7 @@ import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
 
 interface DataSource {
-    suspend fun getMostPopular(searchBy: String): Resource<List<News>>
+    suspend fun getMostPopular(searchBy: String, period: String): Resource<List<News>>
 
     suspend fun insertNews(news: News)
 

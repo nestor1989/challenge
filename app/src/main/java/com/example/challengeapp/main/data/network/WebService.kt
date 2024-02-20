@@ -7,9 +7,11 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WebService {
-    @GET("{searchBy}" + Constants.PATH_JSON + Constants.API_KEY)
+    @GET("{searchBy}" + "{period} " + Constants.PATH_JSON + Constants.API_KEY)
     suspend fun mostPopular(
         @Path("searchBy")
-        searchBy: String
+        searchBy: String,
+        @Path("period")
+        period: String
     ): NewsApiResponse
 }

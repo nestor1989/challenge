@@ -24,10 +24,10 @@ class MainViewModel @Inject constructor(
 
     var favList: MutableLiveData<List<News>> = MutableLiveData()
 
-    fun fetchMostPopular(searchBy: String) = liveData(Dispatchers.IO) {
+    fun fetchMostPopular(searchBy: String, period: String) = liveData(Dispatchers.IO) {
         emit(Resource.Loading())
         try {
-            emit(repo.getMostPopular(searchBy))
+            emit(repo.getMostPopular(searchBy, period))
         }catch (e:Exception){
             emit(Resource.Failure(e))
         }

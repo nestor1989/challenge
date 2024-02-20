@@ -6,7 +6,7 @@ class Constants {
         const val BASE_URL= "https://api.nytimes.com/svc/mostpopular/v2/"
         const val EMAILED = "emailed/"
         const val VIEWED = "viewed/"
-        const val PATH_JSON= "7.json?api-key="
+        const val PATH_JSON= ".json?api-key="
         const val SHARED = "shared/"
     }
 }
