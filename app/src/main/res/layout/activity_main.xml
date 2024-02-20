@@ -21,7 +21,8 @@
             android:layout_weight="2"
             android:layout_height="0dp"
             app:srcCompat="@drawable/nytimes_wordmark"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            app:tint="?attr/colorSecondary" />
 
         <TextView
             android:id="@+id/tvFragment"
@@ -29,7 +30,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:text="The New York Times"
-            android:textColor="@color/black"
+            android:textColor="?attr/colorSecondary"
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
