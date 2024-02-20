@@ -22,5 +22,8 @@
         <item>Last Month</item>
     </string-array>
 
+    <string name="no_internet">No internet connection</string>
+    <string name="no_favs">You haven\'t added favorites yet</string>
+
 
 </resources>

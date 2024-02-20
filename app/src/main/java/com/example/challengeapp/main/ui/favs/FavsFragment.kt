@@ -66,10 +66,20 @@ class FavsFragment : Fragment(),
                 is Resource.Success -> {
                     newProgress.dismiss()
                     initAdapter(result.data)
+                    if (!result.data.isEmpty()){
+                        binding.recyclerView.visibility = View.VISIBLE
+                        binding.lytNofavs.visibility = View.GONE
+                    }else {
+                        binding.lytNofavs.visibility = View.VISIBLE
+                        binding.recyclerView.visibility = View.GONE
+                    }
+
                 }
                 is Resource.Failure -> {
                     newProgress.dismiss()
                     Log.d("FavsFragment", "Error: ${result.exception}")
+                    binding.lytNofavs.visibility = View.VISIBLE
+                    binding.recyclerView.visibility = View.GONE
                 }
             }
         }
