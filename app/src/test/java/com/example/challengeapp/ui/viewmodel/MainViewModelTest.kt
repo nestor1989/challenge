@@ -3,6 +3,7 @@ package com.example.challengeapp.ui.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.challengeapp.main.data.model.News
 import com.example.challengeapp.main.data.repo.Repo
+import com.example.challengeapp.main.domain.favorites.GetFavoritesUseCase
 import com.example.challengeapp.main.domain.most_popular.FetchMostPopularUseCase
 import com.example.challengeapp.main.ui.main.MainViewModel
 import com.idea3d.idea3d.TestCoroutineRule
@@ -28,6 +29,8 @@ class MainViewModelTest {
     private lateinit var repo: Repo
     @RelaxedMockK
     private lateinit var fetchMostPopularUseCase: FetchMostPopularUseCase
+    @RelaxedMockK
+    private lateinit var getFavoritesUseCase: GetFavoritesUseCase
     private lateinit var mainViewModel: MainViewModel
 
     @get:Rule
@@ -49,7 +52,8 @@ class MainViewModelTest {
 
         repo = mockk()
         fetchMostPopularUseCase = mockk()
-        mainViewModel = MainViewModel(repo, fetchMostPopularUseCase)
+        getFavoritesUseCase = mockk()
+        mainViewModel = MainViewModel(repo, fetchMostPopularUseCase, getFavoritesUseCase)
     }
 
     @After
@@ -60,7 +64,7 @@ class MainViewModelTest {
     @Before
     fun onBefore() {
         MockKAnnotations.init(this)
-        mainViewModel = MainViewModel(repo, fetchMostPopularUseCase)
+        mainViewModel = MainViewModel(repo, fetchMostPopularUseCase, getFavoritesUseCase)
         Dispatchers.setMain(Dispatchers.Unconfined)
     }
     @After
