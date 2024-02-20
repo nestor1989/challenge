@@ -1,7 +1,7 @@
-package com.example.challengeapp.main.domain
+package com.example.challengeapp.main.domain.most_popular
 
 import com.example.challengeapp.main.data.repo.Repo
-import com.example.challengeapp.main.domain.FetchMostPopularUseCase
+import com.example.challengeapp.main.domain.most_popular.FetchMostPopularUseCase
 import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
 import javax.inject.Inject

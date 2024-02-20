@@ -1,16 +1,12 @@
 package com.example.challengeapp.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
-import com.example.challengeapp.main.data.model.NewsApiResponse
 import com.example.challengeapp.main.data.repo.Repo
-import com.example.challengeapp.main.domain.FetchMostPopularUseCase
+import com.example.challengeapp.main.domain.most_popular.FetchMostPopularUseCase
 import com.example.challengeapp.main.ui.main.MainViewModel
-import com.example.challengeapp.main.utils.Constants
 import com.idea3d.idea3d.TestCoroutineRule
 import io.mockk.MockKAnnotations
-import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
@@ -25,7 +21,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
-import org.mockito.Mock
 
 @ExperimentalCoroutinesApi
 class MainViewModelTest {
