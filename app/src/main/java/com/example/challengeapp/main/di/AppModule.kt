@@ -22,24 +22,26 @@ import javax.inject.Singleton
 object AppModule {
 
 
-    private val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
-
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(logging)
-        .build()
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        return OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
+    }
 
     @Singleton
     @Provides
-    fun provideWebService(): WebService {
+    fun provideWebService(okHttpClient: OkHttpClient): WebService {
 
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
-            .client(client)
             .build()
 
         return retrofit.create(WebService::class.java)
     }
+
 
     @Singleton
     @Provides

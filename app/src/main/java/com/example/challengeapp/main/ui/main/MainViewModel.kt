@@ -7,6 +7,7 @@ import androidx.lifecycle.liveData
 import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
 import com.example.challengeapp.main.data.repo.Repo
+import com.example.challengeapp.main.domain.FetchMostPopularUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -17,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repo: Repo,
+    private val fetchMostPopularUseCase: FetchMostPopularUseCase,
 ): ViewModel() {
 
     var subtitle: MutableLiveData<String> = MutableLiveData()
@@ -26,7 +28,7 @@ class MainViewModel @Inject constructor(
     fun fetchMostPopular(searchBy: String, period: String) = liveData(Dispatchers.IO) {
         emit(Resource.Loading())
         try {
-            emit(repo.getMostPopular(searchBy, period))
+            emit(fetchMostPopularUseCase.execute(searchBy, period))
         }catch (e:Exception){
             emit(Resource.Failure(e))
         }

@@ -1,12 +1,16 @@
 package com.example.challengeapp.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
+import com.example.challengeapp.main.data.model.NewsApiResponse
 import com.example.challengeapp.main.data.repo.Repo
+import com.example.challengeapp.main.domain.FetchMostPopularUseCase
 import com.example.challengeapp.main.ui.main.MainViewModel
 import com.example.challengeapp.main.utils.Constants
 import com.idea3d.idea3d.TestCoroutineRule
 import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
@@ -21,11 +25,14 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import org.mockito.Mock
 
 @ExperimentalCoroutinesApi
 class MainViewModelTest {
     @RelaxedMockK
     private lateinit var repo: Repo
+    @RelaxedMockK
+    private lateinit var fetchMostPopularUseCase: FetchMostPopularUseCase
     private lateinit var mainViewModel: MainViewModel
 
     @get:Rule
@@ -46,7 +53,8 @@ class MainViewModelTest {
         Dispatchers.setMain(testDispatcher)
 
         repo = mockk()
-        mainViewModel = MainViewModel(repo)
+        fetchMostPopularUseCase = mockk()
+        mainViewModel = MainViewModel(repo, fetchMostPopularUseCase)
     }
 
     @After
@@ -57,7 +65,7 @@ class MainViewModelTest {
     @Before
     fun onBefore() {
         MockKAnnotations.init(this)
-        mainViewModel = MainViewModel(repo)
+        mainViewModel = MainViewModel(repo, fetchMostPopularUseCase)
         Dispatchers.setMain(Dispatchers.Unconfined)
     }
     @After
@@ -88,10 +96,12 @@ class MainViewModelTest {
         // GIVEN
         testCoroutineRule.runBlockingTest {
             // WHEN
-            mainViewModel.fetchMostPopular(Constants.VIEWED, "7")
+            mainViewModel.fetchMostPopular("viewed", "7")
             // THEN
-            TestCase.assertNotNull(mainViewModel.fetchMostPopular(Constants.VIEWED, "7"))
+            TestCase.assertNotNull(mainViewModel.fetchMostPopular("viewed", "7"))
         }
     }
+
+
 
 }
