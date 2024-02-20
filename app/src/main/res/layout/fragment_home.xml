@@ -22,7 +22,7 @@
             android:gravity="center"
             android:text="@string/last_week"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="12sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="none" />
@@ -34,6 +34,22 @@
         android:layout_height="match_parent"
         android:id="@+id/recyclerView"
         android:padding="10dp"
-        tools:listitem="@layout/row_news"/>
+        tools:listitem="@layout/row_news"
+        android:visibility="visible"/>
+
+    <RelativeLayout
+        android:id="@+id/prError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/error" />
+    </RelativeLayout>
 
 </LinearLayout>

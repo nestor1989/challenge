@@ -36,4 +36,19 @@
         android:padding="10dp"
         tools:listitem="@layout/row_news"/>
 
+    <RelativeLayout
+        android:id="@+id/prError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/error" />
+    </RelativeLayout>
+
 </LinearLayout>

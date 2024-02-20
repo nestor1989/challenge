@@ -69,17 +69,21 @@ class SharedFragment : Fragment(),
                 when (result) {
                     is Resource.Loading -> {
                         newProgress.show(activity?.supportFragmentManager!!, "progress dialog")
+                        binding.prError.visibility = View.GONE
                     }
 
                     is Resource.Success -> {
                         initAdapter(result.data)
                         newProgress.dismiss()
-
+                        binding.prError.visibility = View.GONE
+                        binding.recyclerView.visibility = View.VISIBLE
                     }
 
                     is Resource.Failure -> {
                         Log.d("SharedFragment", "Error: ${result.exception}")
                         newProgress.dismiss()
+                        binding.prError.visibility = View.VISIBLE
+                        binding.recyclerView.visibility = View.GONE
                     }
                 }
             }

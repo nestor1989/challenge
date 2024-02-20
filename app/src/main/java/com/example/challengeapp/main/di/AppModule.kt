@@ -11,6 +11,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -20,6 +22,12 @@ import javax.inject.Singleton
 object AppModule {
 
 
+    private val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(logging)
+        .build()
+
     @Singleton
     @Provides
     fun provideWebService(): WebService {
@@ -27,6 +35,7 @@ object AppModule {
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+            .client(client)
             .build()
 
         return retrofit.create(WebService::class.java)
