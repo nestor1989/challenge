@@ -165,9 +165,13 @@ class HomeFragment : Fragment(),
 
             else -> 7
         }
-
         setObservers()
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initArray()
     }
 
 

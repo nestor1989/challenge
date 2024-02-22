@@ -174,4 +174,9 @@ class SharedFragment : Fragment(),
 
         }
 
+        override fun onResume() {
+            super.onResume()
+            initArray()
+        }
+
     }
