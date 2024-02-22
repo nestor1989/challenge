@@ -79,11 +79,25 @@
                 android:background="@color/divider_gray"
                 android:visibility="visible" />
 
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/recycler_content"
+                android:layout_weight="1">
 
             <WebView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/webView"/>
+
+            </RelativeLayout>
+
+            </androidx.core.widget.NestedScrollView>
 
         </LinearLayout>
 
