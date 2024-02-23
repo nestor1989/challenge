@@ -2,6 +2,7 @@ package com.example.challengeapp.main.ui.main
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -44,8 +45,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setSubtitleObserve(){
+
         mainViewModel.subtitle.observe(this) {
-            binding.tvFragment.setText(it)
+            findViewById<TextView>(R.id.tvFragment).apply {
+                text = mainViewModel.subtitle.value
+            }
         }
     }
 
