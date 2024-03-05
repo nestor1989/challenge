@@ -6,5 +6,5 @@ data class NewsDTO(
     val abstractField: String,
     val mediaUrls: List<String>,
     val url: String,
-    val favorite: Boolean
+    var favorite: Boolean
 )

@@ -4,8 +4,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.challengeapp.main.core.Resource
-import com.example.challengeapp.main.data.model.News
+import com.example.challengeapp.main.data.model.NewsDTO
 import com.example.challengeapp.main.data.repo.Repo
+import com.example.challengeapp.main.domain.mapper.GetNewsMapper
+import com.example.challengeapp.main.domain.mapper.NewMapper
 import com.example.challengeapp.main.domain.favorites.GetFavoritesUseCase
 import com.example.challengeapp.main.domain.most_popular.FetchMostPopularUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,31 +21,33 @@ class MainViewModel @Inject constructor(
     private val repo: Repo,
     private val fetchMostPopularUseCase: FetchMostPopularUseCase,
     private val getFavoritesUseCase: GetFavoritesUseCase,
+    private val getNewsMapper: GetNewsMapper,
+    private val newMapper: NewMapper
 ): ViewModel() {
 
     var subtitle: MutableLiveData<String> = MutableLiveData()
 
-    var favList: MutableLiveData<List<News>> = MutableLiveData()
+    var favList: MutableLiveData<List<NewsDTO>> = MutableLiveData()
 
     fun fetchMostPopular(searchBy: String, period: String) = liveData(Dispatchers.IO) {
         emit(Resource.Loading())
         try {
             val result = fetchMostPopularUseCase(searchBy, period)
-            emit(result)
+            emit(Resource.Success(getNewsMapper.mapToUI(result)))
         }catch (e:Exception){
             emit(Resource.Failure(e))
         }
     }
 
-    fun addedToFavorite (news: News) {
+    fun addedToFavorite (news: NewsDTO) {
         CoroutineScope(Dispatchers.IO).launch {
-            repo.addedNewsToFav(news)
+            repo.addedNewsToFav(newMapper.mapToDomain(news))
         }
     }
 
-    fun deleteFavorite (news: News) {
+    fun deleteFavorite (news: NewsDTO) {
         CoroutineScope(Dispatchers.IO).launch {
-            repo.deleteFavorite(news)
+            repo.deleteFavorite(newMapper.mapToDomain(news))
         }
     }
 
@@ -51,7 +55,7 @@ class MainViewModel @Inject constructor(
         emit(Resource.Loading())
         try {
             val result = getFavoritesUseCase()
-            emit(result)
+            emit(Resource.Success(getNewsMapper.mapToUI(result)))
         } catch (e: Exception) {
             emit(Resource.Failure(e))
         }

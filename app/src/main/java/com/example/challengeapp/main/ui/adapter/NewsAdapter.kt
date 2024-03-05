@@ -9,13 +9,14 @@ import com.example.challengeapp.R
 import com.example.challengeapp.databinding.RowNewsBinding
 import com.example.challengeapp.main.core.BaseViewHolder
 import com.example.challengeapp.main.data.model.News
+import com.example.challengeapp.main.data.model.NewsDTO
 
-class NewsAdapter(private val context: Context, private val newsList:List<News>,
+class NewsAdapter(private val context: Context, private val newsList:List<NewsDTO>,
                   private val itemClickListener:OnNewsClickListener):
     RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     interface OnNewsClickListener{
-        fun onNewsClick(news: News)
+        fun onNewsClick(news: NewsDTO)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
@@ -36,10 +37,10 @@ class NewsAdapter(private val context: Context, private val newsList:List<News>,
     }
 
     inner class MainViewHolder(private val itemBinding: RowNewsBinding):
-        BaseViewHolder<News>(itemBinding.root) {
-        override fun bind(item: News) {
+        BaseViewHolder<NewsDTO>(itemBinding.root) {
+        override fun bind(item: NewsDTO) {
             try {
-                val image = item.media[0].mediaMetadata[0].url
+                val image = item.mediaUrls[0]
                 Glide.with(context)
                     .load(image)
                     .centerCrop()

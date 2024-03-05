@@ -15,6 +15,7 @@ import com.example.challengeapp.R
 import com.example.challengeapp.databinding.FragmentSharedBinding
 import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
+import com.example.challengeapp.main.data.model.NewsDTO
 import com.example.challengeapp.main.ui.adapter.NewsAdapter
 import com.example.challengeapp.main.ui.main.MainActivity
 import com.example.challengeapp.main.ui.main.MainViewModel
@@ -94,18 +95,18 @@ class SharedFragment : Fragment(),
             _binding = null
         }
 
-        override fun onNewsClick(news: News) {
+        override fun onNewsClick(news: NewsDTO) {
             modalInst(news)
         }
 
-        private fun initAdapter(list : List<News>){
+        private fun initAdapter(list : List<NewsDTO>){
             val appContext = requireContext()
             val recyclerView = binding.recyclerView
             recyclerView.layoutManager= LinearLayoutManager(appContext)
             binding.recyclerView.adapter= NewsAdapter(requireContext(), list, this)
         }
 
-        private fun modalInst(news: News){
+        private fun modalInst(news: NewsDTO){
             val favorite = validateFav(news)
             news.favorite = favorite
             newsModalFragment = NewsModalFragment(news, this)
@@ -113,7 +114,7 @@ class SharedFragment : Fragment(),
             newInst.show(activity?.supportFragmentManager!!, "newsmodal")
         }
 
-        private fun validateFav(news : News): Boolean{
+        private fun validateFav(news : NewsDTO): Boolean{
             try {
                 mainViewModel.favList.value?.let {
                     for(i in 0 until mainViewModel.favList.value!!.size){
@@ -128,7 +129,7 @@ class SharedFragment : Fragment(),
             return news.favorite
         }
 
-        override fun onLikeClick(news: News) {
+        override fun onLikeClick(news: NewsDTO) {
             if (!news.favorite){
                 mainViewModel.addedToFavorite(news)
             }

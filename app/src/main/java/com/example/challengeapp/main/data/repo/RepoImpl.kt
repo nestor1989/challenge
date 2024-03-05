@@ -8,7 +8,7 @@ import javax.inject.Inject
 class RepoImpl
 @Inject constructor(private val dataSource: DataSource)
 :Repo {
-    override suspend fun getMostPopular(searchBy: String, period: String): Resource<List<News>> {
+    override suspend fun getMostPopular(searchBy: String, period: String):List<News> {
         return dataSource.getMostPopular(searchBy, period)
     }
 
@@ -16,7 +16,7 @@ class RepoImpl
         dataSource.insertNews(news)
     }
 
-    override suspend fun getNewsFav(): Resource<List<News>> {
+    override suspend fun getNewsFav(): List<News> {
         return dataSource.getFavoriteNews()
     }
 

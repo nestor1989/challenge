@@ -8,10 +8,11 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.example.challengeapp.databinding.FragmentNewsModalBinding
 import com.example.challengeapp.main.data.model.News
+import com.example.challengeapp.main.data.model.NewsDTO
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class NewsModalFragment(
-    private val news: News,
+    private val news: NewsDTO,
     private val onArticleClickListener: OnArticleClickListener
     ) : BottomSheetDialogFragment() {
 
@@ -20,7 +21,7 @@ class NewsModalFragment(
     private lateinit var progressDialogFragment: ProgressDialogFragment
 
     interface OnArticleClickListener  {
-        fun onLikeClick(news: News)
+        fun onLikeClick(news: NewsDTO)
         fun onDismiss()
     }
 
@@ -80,7 +81,7 @@ class NewsModalFragment(
         onArticleClickListener.onDismiss()
     }
 
-    fun newInstance(news: News): NewsModalFragment {
+    fun newInstance(news: NewsDTO): NewsModalFragment {
         val frag = NewsModalFragment(news, onArticleClickListener)
         val args = Bundle()
         frag.arguments = args
