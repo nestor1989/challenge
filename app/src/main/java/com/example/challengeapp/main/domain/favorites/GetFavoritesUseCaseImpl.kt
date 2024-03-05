@@ -7,8 +7,8 @@ import javax.inject.Inject
 
 class GetFavoritesUseCaseImpl @Inject constructor(
     private val repo: Repo
-) : GetFavoritesUseCase {
-    override suspend fun execute(): Resource<List<News>> {
+): GetFavoritesUseCase{
+    override suspend operator fun invoke(): Resource<List<News>> {
         return repo.getNewsFav()
     }
 }

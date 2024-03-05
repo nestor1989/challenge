@@ -4,5 +4,5 @@ import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.News
 
 interface GetFavoritesUseCase {
-    suspend fun execute(): Resource<List<News>>
+    suspend operator fun invoke(): Resource<List<News>>
 }

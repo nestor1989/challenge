@@ -18,7 +18,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val repo: Repo,
     private val fetchMostPopularUseCase: FetchMostPopularUseCase,
-    private val getFavoritesUseCase: GetFavoritesUseCase
+    private val getFavoritesUseCase: GetFavoritesUseCase,
 ): ViewModel() {
 
     var subtitle: MutableLiveData<String> = MutableLiveData()
@@ -28,20 +28,21 @@ class MainViewModel @Inject constructor(
     fun fetchMostPopular(searchBy: String, period: String) = liveData(Dispatchers.IO) {
         emit(Resource.Loading())
         try {
-            emit(fetchMostPopularUseCase.execute(searchBy, period))
+            val result = fetchMostPopularUseCase(searchBy, period)
+            emit(result)
         }catch (e:Exception){
             emit(Resource.Failure(e))
         }
     }
 
     fun addedToFavorite (news: News) {
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             repo.addedNewsToFav(news)
         }
     }
 
     fun deleteFavorite (news: News) {
-        CoroutineScope(Dispatchers.Main).launch {
+        CoroutineScope(Dispatchers.IO).launch {
             repo.deleteFavorite(news)
         }
     }
@@ -49,7 +50,8 @@ class MainViewModel @Inject constructor(
     fun getFavorites() = liveData(Dispatchers.IO) {
         emit(Resource.Loading())
         try {
-            emit(getFavoritesUseCase.execute())
+            val result = getFavoritesUseCase()
+            emit(result)
         } catch (e: Exception) {
             emit(Resource.Failure(e))
         }

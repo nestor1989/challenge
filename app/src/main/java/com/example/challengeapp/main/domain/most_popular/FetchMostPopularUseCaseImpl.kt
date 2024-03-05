@@ -9,7 +9,7 @@ import javax.inject.Inject
 class FetchMostPopularUseCaseImpl @Inject constructor(
     private val repo: Repo
 ) : FetchMostPopularUseCase {
-    override suspend fun execute(searchBy: String, period: String): Resource<List<News>> {
+    override suspend operator fun invoke(searchBy: String, period: String): Resource<List<News>> {
         return repo.getMostPopular(searchBy, period)
     }
 }
