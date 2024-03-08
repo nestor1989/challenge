@@ -66,6 +66,7 @@ class FavsFragment : Fragment(),
                 }
                 is Resource.Success -> {
                     newProgress.dismiss()
+                    Log.d("FavsFragment", "Success: ${result.data}")
                     initAdapter(result.data)
                     if (!result.data.isEmpty()){
                         binding.recyclerView.visibility = View.VISIBLE

@@ -71,6 +71,7 @@ class HomeFragment : Fragment(),
 
                 is Resource.Success -> {
                     initAdapter(result.data)
+                    Log.d("LIST_DATA", "Data: ${result.data}")
                     newProgress.dismiss()
                     binding.prError.visibility = View.GONE
                     binding.recyclerView.visibility = View.VISIBLE
