@@ -1,8 +1,10 @@
 package com.example.challengeapp.main.ui.main
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.example.challengeapp.main.core.Resource
 import com.example.challengeapp.main.data.model.NewsDTO
 import com.example.challengeapp.main.data.repo.Repo
@@ -14,6 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.catch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,6 +31,7 @@ class MainViewModel @Inject constructor(
     var subtitle: MutableLiveData<String> = MutableLiveData()
 
     var favList: MutableLiveData<List<NewsDTO>> = MutableLiveData()
+    var flowPopulars: MutableLiveData<List<NewsDTO>> = MutableLiveData()
 
     fun fetchMostPopular(searchBy: String, period: String) = liveData(Dispatchers.IO) {
         emit(Resource.Loading())
@@ -37,6 +41,20 @@ class MainViewModel @Inject constructor(
         }catch (e:Exception){
             emit(Resource.Failure(e))
         }
+    }
+    fun fetchFlowMostPopular(searchBy: String, period: String) {
+        viewModelScope.launch {
+            repo.getFlowPopular(searchBy, period)
+                .catch { exception -> notifyError(exception) }
+                .collect { news ->
+                    flowPopulars.postValue(getNewsMapper.mapToUI(news))
+                }
+        }
+
+    }
+
+    private fun notifyError(exception: Throwable) {
+        Log.e("MainViewModel", "Error: ${exception.message}")
     }
 
     fun addedToFavorite (news: NewsDTO) {

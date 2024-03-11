@@ -56,13 +56,14 @@ class HomeFragment : Fragment(),
 
     private fun setUp(){
         mainViewModel.subtitle.postValue(getString(R.string.most_viewed))
+        mainViewModel.fetchFlowMostPopular(Constants.VIEWED, period.toString())
     }
 
     private fun setObservers(){
         progressDialogFragment = ProgressDialogFragment()
         val newProgress = progressDialogFragment.newInstance()
 
-        mainViewModel.fetchMostPopular(Constants.VIEWED, period.toString()).observe(viewLifecycleOwner) { result ->
+        /*mainViewModel.fetchMostPopular(Constants.VIEWED, period.toString()).observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Resource.Loading -> {
                     newProgress.show(activity?.supportFragmentManager!!, "progress dialog")
@@ -84,6 +85,11 @@ class HomeFragment : Fragment(),
                     binding.recyclerView.visibility = View.GONE
                 }
             }
+        }*/
+
+        mainViewModel.flowPopulars.observe(viewLifecycleOwner) { news ->
+            initAdapter(news)
+            Log.d("LIST_DATA_FLOW", "Data: $news")
         }
     }
 
