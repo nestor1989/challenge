@@ -33,7 +33,7 @@ class DataSourceImpl @Inject constructor(
         while(true) {
             val latestNews = webService.mostPopular(searchBy, period).results
             emit(latestNews) // Emits the result of the request to the flow
-            delay(5000) // Suspends the coroutine for some time
+            delay(10000)// Suspends the coroutine for some time
         }
     }
 
